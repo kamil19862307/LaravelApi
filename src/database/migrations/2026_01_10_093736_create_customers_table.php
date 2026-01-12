@@ -13,6 +13,15 @@ return new class extends Migration
     {
         Schema::create('customers', function (Blueprint $table) {
             $table->id();
+
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->string('type'); // Тут будет "I" для частных лиц либо "B" для бизнеса
+            $table->string('address');
+            $table->string('city');
+            $table->string('state');
+            $table->string('postal_code'); // Индекс по нашему
+
             $table->timestamps();
         });
     }
