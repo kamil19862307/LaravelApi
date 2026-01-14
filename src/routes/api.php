@@ -11,7 +11,8 @@ Route::get('/ping', function () {
     ]);
 });
 
-Route::prefix('v1')->namespace('App\Http\Controllers\Api\V1')->group(function () {
+// Роут будет такой: /api/v1/customers
+Route::prefix('v1')->group(function () {
     Route::apiResource('customers', CustomerController::class);
     Route::apiResource('invoices', InvoiceController::class);
 });

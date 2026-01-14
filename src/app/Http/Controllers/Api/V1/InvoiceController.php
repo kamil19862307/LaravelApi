@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreInvoiceRequest;
 use App\Http\Requests\UpdateInvoiceRequest;
+use App\Http\Resources\V1\InvoiceResource;
 use App\Models\Invoice;
 
 class InvoiceController extends Controller
@@ -14,7 +15,7 @@ class InvoiceController extends Controller
      */
     public function index()
     {
-        //
+        return Invoice::query()->select('customer_id', 'amount', 'status', 'billed_at', 'paid_at')->get()->toJson();
     }
 
     /**
@@ -38,7 +39,7 @@ class InvoiceController extends Controller
      */
     public function show(Invoice $invoice)
     {
-        //
+        return new InvoiceResource($invoice);
     }
 
     /**
