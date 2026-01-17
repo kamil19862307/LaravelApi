@@ -23,6 +23,9 @@ class CustomerResource extends JsonResource
             'city' => $this->city,
             'state' => $this->state,
             'postalCode' => $this->postal_code,
+
+            // by using this "whenLoaded" method, we are able to conditionally include the related information for our resource
+            // Используя метод `whenLoaded`, мы можем условно включать связанную информацию для нашего ресурса.
             'invoices' => InvoiceResource::collection($this->whenLoaded('invoices')),
         ];
     }
