@@ -4,12 +4,16 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Filters\V1\InvoicesFilter;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\V1\BulkStoreInvoiceRequest;
 use App\Http\Requests\V1\StoreInvoiceRequest;
 use App\Http\Requests\V1\UpdateInvoiceRequest;
 use App\Http\Resources\V1\InvoiceCollection;
 use App\Http\Resources\V1\InvoiceResource;
 use App\Models\Invoice;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Log;
 
 class InvoiceController extends Controller
 {
@@ -49,6 +53,34 @@ class InvoiceController extends Controller
     public function store(StoreInvoiceRequest $request)
     {
         //
+    }
+
+    // [{customerId:}, {customerId}]
+    public function bulkStore(BulkStoreInvoiceRequest $request): JsonResponse
+    {
+        try {
+
+            $bulk = collect($request->all())->map(function ($array, $key) {
+
+                return Arr::except($array, ['customerId', 'billedAt', 'paidAt']);
+
+            });
+
+            Invoice::query()->insert($bulk->toArray());
+
+            return response()->json('Data inserted successfully');
+
+        } catch (\Exception $e) {
+
+            Log::error($e->getMessage());
+
+            return response()->json([
+
+                'message' => 'Failed to insert data',
+
+            ]);
+
+        }
     }
 
     /**
