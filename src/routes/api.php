@@ -12,7 +12,7 @@ Route::get('/ping', function () {
 });
 
 // Роут будет такой: /api/v1/customers
-Route::prefix('v1')->group(function () {
+Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
     Route::apiResource('customers', CustomerController::class);
     Route::apiResource('invoices', InvoiceController::class);
 
