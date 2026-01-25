@@ -17,7 +17,15 @@
 
 docker compose exec app
 
-Например, хотим создать контроллер:
+Например установить зависимости:
+
+docker compose exec app composer install
+
+Или сгенерировать ключ ларавель:
+
+docker compose exec app php artisan key:generate
+
+Или хотим создать контроллер:
 
 docker compose exec app php artisan make:controller CustomerController
 
